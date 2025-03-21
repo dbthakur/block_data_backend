@@ -20,7 +20,7 @@ app.use(cors())
 
 app.use(bodyParser.json());
 
-const PORT = 5000;
+const PORT = 5050;
 
 app.use('/', routes)
 app.use(errorHandler);
