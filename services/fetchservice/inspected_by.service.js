@@ -5,7 +5,7 @@ export const getInspectedByService = async () => {
   
       const query = `SELECT * FROM  inspected_by`;
       const [rows] = await db.query(query);
-      return {status:"ok",rows};
+      return rows;
     } catch(error) {
       console.error("Error in getInspectedByService:", error);
       throw error;
