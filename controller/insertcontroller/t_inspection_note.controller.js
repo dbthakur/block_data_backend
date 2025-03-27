@@ -7,7 +7,6 @@ export const postInspectionNoteController = async (req, res) => {
 
         // Ensure required fields are provided
         const {
-            ins_date,
             stations,
             inspectedbys,
             designations,
@@ -24,7 +23,7 @@ export const postInspectionNoteController = async (req, res) => {
             login_user_posting
         } = req.body;
 
-        if (!ins_date || !stations || !inspectedbys || !designations || !depart_id) {
+        if (!stations || !inspectedbys || !designations || !depart_id) {
             return res.status(400).json({ message: "Required fields are missing" });
         }
 

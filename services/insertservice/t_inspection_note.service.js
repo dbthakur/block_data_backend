@@ -4,12 +4,11 @@ export const postInspectionNoteService = async (inspection_note) => {
   try {
     const sql = `
       INSERT INTO t_inspection_note 
-      (ins_date, stations, inspectedbys, designations, depart_id, deficiencys, subdeficiencys, descriptions, remark, compliance, compliance_remark, complaint_solving_date, login_user, login_user_desg, login_user_posting)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      (stations, inspectedbys, designations, depart_id, deficiencys, subdeficiencys, descriptions, remark, compliance, compliance_remark, complaint_solving_date, login_user, login_user_desg, login_user_posting)
+      VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
 
     const values = [
-      inspection_note.ins_date,
       inspection_note.stations,
       inspection_note.inspectedbys,
       inspection_note.designations,
