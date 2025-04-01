@@ -14,15 +14,15 @@ export const postInspectionNoteService = async (inspection_note) => {
       inspection_note.designations,
       inspection_note.depart_id,
       inspection_note.deficiencys,
-      inspection_note.subdeficiencys || null, // Handle empty values
-      inspection_note.descriptions,
-      inspection_note.remark,
-      inspection_note.compliance || null,
+      inspection_note.subdeficiencys || null, 
+      inspection_note.descriptions || null,
+      inspection_note.remark || null,
+      'pending',
       inspection_note.compliance_remark || null,
       inspection_note.complaint_solving_date || null,
-      inspection_note.login_user,
-      inspection_note.login_user_desg,
-      inspection_note.login_user_posting
+      inspection_note.login_user || null,
+      inspection_note.login_user_desg || null,
+      inspection_note.login_user_posting || null
     ];
 
     const [result] = await db.query(sql, values);
