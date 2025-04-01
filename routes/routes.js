@@ -5,6 +5,7 @@ import { getDeficiencyController } from "../controller/fetchcontroller/deficienc
 import { getInspectedByController } from "../controller/fetchcontroller/inspected_by.controller.js";
 import { postInspectionNoteController } from "../controller/insertcontroller/t_inspection_note.controller.js";
 import { getTinsepctionController } from "../controller/fetchcontroller/getTinsepctionController.js";
+import { updateInspectionNoteController } from "../controller/updatecontroller/t_inspection_note_update.controller.js";
 
 
 
@@ -21,6 +22,9 @@ routes.get("/getInspectedBy",getInspectedByController);
 
 // for all insertation of transction table
 routes.post("/insertInspectionNote",postInspectionNoteController);
+
+//for update of table
+routes.put("/updateInspectionNote",updateInspectionNoteController);
 
 
 export default routes;
