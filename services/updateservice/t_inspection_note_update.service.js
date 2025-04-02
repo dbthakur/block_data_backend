@@ -6,7 +6,7 @@ export const updateInspectionNoteService = async (inspection_note) => {
       UPDATE t_inspection_note 
       SET  compliance = ?, compliance_remark = ?, complaint_solving_date = ?
       WHERE id = ? `;
-
+      
     const values = [
        'Completed',
       inspection_note.compliance_remark || null,
