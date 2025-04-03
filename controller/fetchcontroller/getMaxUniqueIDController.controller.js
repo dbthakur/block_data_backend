@@ -5,7 +5,7 @@ export const getMaxUniqueIDController = async (req, res) => {
     console.log("columnName",columnName);
     try {
         const maxID = await getMaxUniqueIDService(tableName, columnName);
-        res.status(200).json({ maxID });
+        res.status(200).json({status:"ok",maxID: maxID});
     } catch (error) {
         res.status(500).json({ error: 'Error fetching max unique ID' });
     }
