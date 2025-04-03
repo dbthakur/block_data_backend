@@ -6,6 +6,7 @@ import { getInspectedByController } from "../controller/fetchcontroller/inspecte
 import { postInspectionNoteController } from "../controller/insertcontroller/t_inspection_note.controller.js";
 import { getTinsepctionController } from "../controller/fetchcontroller/getTinsepctionController.js";
 import { updateInspectionNoteController } from "../controller/updatecontroller/t_inspection_note_update.controller.js";
+import { getMaxUniqueIDController } from "../controller/fetchcontroller/getMaxUniqueIDController.controller.js";
 
 
 
@@ -18,6 +19,7 @@ routes.get("/getTInspection",getTinsepctionController);
 routes.get("/getdepartments",getdepartmentController);
 routes.get("/getdeficiency",getDeficiencyController);
 routes.get("/getInspectedBy",getInspectedByController);
+routes.get("/getMaxUniqueID",getMaxUniqueIDController);
 
 
 // for all insertation of transction table

@@ -8,6 +8,8 @@ export const getTinsepctionService = async () => {
     const query = `SELECT * FROM t_inspection_note`;
     const [rows] = await db.query(query); // No need for an empty array
 
+    console.log("Rows in service:", rows);
+
     return rows;
   
   } catch (error) {
