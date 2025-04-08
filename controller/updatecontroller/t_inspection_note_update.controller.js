@@ -5,14 +5,12 @@ export const updateInspectionNoteController = async (req, res) => {
     try {
       const { compliance_remark, id } = req.body;
 
-      console.log("Received Data:", req.body);
+      // console.log("Received Data:", req.body);
   
       if (!id) {
         return res.status(400).json({ message: "ID is required" });
       }
-  
-      console.log("Updating ID:", id);
-  
+      // console.log("Updating ID:", id);
       const result = await updateInspectionNoteService({compliance_remark, id });
   
       if (result.affectedRows === 0) {

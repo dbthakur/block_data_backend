@@ -17,6 +17,7 @@ export const postInspectionNoteController = async (req, res) => {
         const result = await postInspectionNoteService(inspections);
 
         res.status(201).json({ 
+            status:"ok",
             message: "Inspection Notes inserted successfully", 
             data: req.body
         });
