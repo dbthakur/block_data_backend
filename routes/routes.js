@@ -21,7 +21,7 @@ routes.get("/getdeficiency",getDeficiencyController);
 routes.get("/getInspectedBy",getInspectedByController);
 routes.get("/getMaxUniqueID",getMaxUniqueIDController);
 
-routes.get("/getMaxInsDate/stn",getMaxInsDateController);
+routes.get("/getMaxInsDate",getMaxInsDateController);
 
 
 // for all insertation of transction table
