@@ -5,7 +5,7 @@ export const getTinsepctionService = async () => {
   try {
     // console.log("Came in service");
 
-    const query = `SELECT * FROM t_inspection_note`;
+    const query = `SELECT * FROM t_inspection_note ORDER BY ins_date DESC`;
     const [rows] = await db.query(query); // No need for an empty array
 
     // console.log("Rows in service:", rows);
