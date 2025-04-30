@@ -8,7 +8,7 @@ export const postInspectionNoteController = async (req, res) => {
         for (const inspection of inspections) {
             const { ins_id,stations, inspectedbys, designations, depart_id } = inspection;
 
-            if (!ins_id||!stations || !inspectedbys || !designations || !depart_id) {
+            if (!stations || !inspectedbys || !designations || !depart_id) {
                 return res.status(400).json({ message: "Required fields are missing in one or more entries" });
             }
         }
