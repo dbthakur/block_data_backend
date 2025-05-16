@@ -14,13 +14,11 @@ const app = express();
 
 app.use(cors())
 
-// app.use(cors({
-//   origin: ['https://railsetu.in'] // origin: '*'
-// }))
+
 
 app.use(bodyParser.json());
 
-const PORT = 5050;
+const PORT = 5105;
 
 app.use('/', routes)
 app.use(errorHandler);

@@ -1,11 +1,11 @@
-import mysql from "mysql2/promise"; // ✅ Use mysql2 (with promises)
+import mysql from "mysql2/promise"; 
 import { dbConfig } from "./config.js";
 
 if (process.env.ENV !== "development") {
   dbConfig.port = process.env.DATABASE_PORT;
 }
 
-// ✅ Create a connection pool
+
 export const db = mysql.createPool({
   ...dbConfig,
   waitForConnections: true,
@@ -19,7 +19,7 @@ export const dbConnect = async () => {
     console.log("Connected to MySQL database!");
     connection.release();
   } catch (err) {
-    console.error("❌ MySQL Connection Error:", err);
+    console.error(" MySQL Connection Error:", err);
     throw err;
   }
 };
