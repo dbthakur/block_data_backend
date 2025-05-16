@@ -27,6 +27,7 @@ import { updateBlockDataController } from "../controller/updatecontroller/block_
 
 import { deleteStationDataController } from '../controller/deletecontroller/delete_station_data.controller.js';
 import { deleteBlockDataController } from '../controller/deletecontroller/delete_block_data.controller.js';
+import { deleteDivisionDataController } from '../controller/deletecontroller/delete_division_data.controller.js';
 
 
 //authentication
@@ -64,6 +65,7 @@ routes.put("/updateblockdata", updateBlockDataController);
 //for deletion of table data
 routes.delete('/deletestation/:id',deleteStationDataController);
 routes.delete('/deleteblockdata/:id',deleteBlockDataController);
+routes.delete('/deletedivisiondata/:id',deleteDivisionDataController);
 
 
 //auth routers 
