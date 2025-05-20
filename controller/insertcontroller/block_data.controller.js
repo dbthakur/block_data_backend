@@ -2,7 +2,7 @@ import { postBlockDataService } from "../../services/insertservice/block_data.se
 
 const REQUIRED_FIELDS = [
   "Date", "Direction", "Section", "From_Station", "To_Station",
-  "Section_Yard", "Corridore", "Department",
+    "Department",
   "Availed_Duration", "Availed",
   "Rated_Output", "Actual_Output","Remarks"
 ];

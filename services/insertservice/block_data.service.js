@@ -11,7 +11,7 @@ export const postBlockDataService = async (blockDataArray) => {
       "Granted_Not", "Availed_Not", "Burst_Not", "Burst_Duration", "Remarks",
       "Repurcussion_No_Of_MExp", "No_Of_MExp_Detention", "No_Of_Goods",
       "No_Of_Goods_Detention", "F_Year", "Month", "a_month", "s_month",
-      "count", "fgg", "zzz"
+      "count"
     ];
 
     const values = blockDataArray.map(entry => {

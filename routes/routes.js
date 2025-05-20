@@ -5,7 +5,6 @@ import express from "express";
 //get request for fetching data
 import { getStationCodeController } from "../controller/fetchcontroller/station_code.controller.js";
 import { getBlockDataController } from "../controller/fetchcontroller/block_data.controller.js";
-import { getEnggBlockDataController } from "../controller/fetchcontroller/engg_block_data.controller.js";
 
 
 //post request for inserting data
@@ -42,7 +41,6 @@ const routes = express.Router();
 // for all get request for fetching  master data
 routes.get("/getstationcode",getStationCodeController);
 routes.get('/getblockdata',getBlockDataController);
-routes.get("/enggblockdata", getEnggBlockDataController);
 
 
 
