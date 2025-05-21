@@ -10,6 +10,8 @@ export const getStationCodeServices= async () => {
     sc.station_code,
     sc.section_name,
     sc.division_id,
+    d.division_name,
+    d.zone_id,
     ld.line_id,
     ld.line,
     ld.location_from,
@@ -18,8 +20,11 @@ FROM
     station_code sc
 INNER JOIN 
     line_direction ld ON sc.station_id = ld.station_id
+INNER JOIN 
+    division d ON sc.division_id = d.division_id
 ORDER BY 
-    sc.station_id, ld.line_id;`;
+    sc.station_id, ld.line_id`;
+;
     // const query = `SELECT * FROM station_code WHERE station_code = ?`;
     const [rows] = await db.query(query);
     return rows;

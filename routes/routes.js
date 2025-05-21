@@ -40,7 +40,7 @@ const routes = express.Router();
 
 // for all get request for fetching  master data
 routes.get("/getstationcode",getStationCodeController);
-routes.get('/getblockdata',getBlockDataController);
+routes.get("/getblockdata",getBlockDataController);
 
 
 
