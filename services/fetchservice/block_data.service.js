@@ -52,7 +52,7 @@ export const getBlockDataService = async (date, page = 1, limit = 50) => {
 
 const uniqueSections = [...new Set(fyData.map(item => item.section))];
 
-// console.log("Unique Sections:", uniqueSections);
+
     // Grouping financial year data by unique sections
     const setuniqueSection = uniqueSections.map((uniqS) => {
       const tempOBJC = fyData.filter((fyDataObj) => fyDataObj.section === uniqS);
