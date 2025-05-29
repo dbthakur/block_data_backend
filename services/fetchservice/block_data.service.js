@@ -2,7 +2,7 @@
 
 import { db } from "../../db/dbConnect.js";
 
-export const getBlockDataService = async (date, page = 1, limit = 10) => {
+export const getBlockDataService = async (date, page = 1, limit = 50) => {
   try {
     const inputDate = new Date(date);
     if (isNaN(inputDate)) throw new Error("Invalid date format");
@@ -50,11 +50,15 @@ export const getBlockDataService = async (date, page = 1, limit = 10) => {
     });
 
 
-const uniqueSections = [...new Set(fyData.map(item => item.section_name))];
+const uniqueSections = [...new Set(fyData.map(item => item.section))];
+
+// console.log("Unique Sections:", uniqueSections);
     // Grouping financial year data by unique sections
     const setuniqueSection = uniqueSections.map((uniqS) => {
-      const tempOBJC = fyData.filter((fyDataObj1) => fyDataObj1.section_name === uniqS);
-      return {SECTION_NAME:uniqS,DATA: [...tempOBJC] };
+      const tempOBJC = fyData.filter((fyDataObj) => fyDataObj.section === uniqS);
+      return {
+        SECTION_NAME:uniqS,DATA: [...tempOBJC] 
+      };
     });
 
 
@@ -62,7 +66,7 @@ const uniqueSections = [...new Set(fyData.map(item => item.section_name))];
     return {
       currentDate: date,
       month: yyyyMM,
-      monthData,
+      
       monthPagination: {
         page: Number(page),
         limit: Number(limit),
@@ -74,9 +78,11 @@ const uniqueSections = [...new Set(fyData.map(item => item.section_name))];
         limit: Number(limit),
         totalRecords: fyTotal,
         totalPages: Math.ceil(fyTotal / limit)
-      },
+      },    
+      currentDate,
+      monthData,
       uniqueDepartments: setData,
-      uniqueSections: setuniqueSection
+      uniqueSections: setuniqueSection,
       
     };
 
