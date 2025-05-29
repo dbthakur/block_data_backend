@@ -32,9 +32,7 @@ export const getBlockDataController = async (req, res) => {
   try {
     const {
       date,
-      // department,
-      // section_name,
-      // offset = 0,
+     
     
 
     } = req.query;
@@ -47,16 +45,7 @@ const limit = req.query.limit || 50;
     }
 
     const data = await getBlockDataService(req.query.date, page, limit);
-    //  res.status(200).json({ status: "ok", data: result });
-// res.json(data);
-
-    // const data = await getBlockDataService(
-    //   date,
-    //   department || null,
-    //   section_name || null,
-    //   parseInt(limit),
-    //   parseInt(offset)
-    // );
+ 
  
     res.status(200).json({
       status: "ok",
