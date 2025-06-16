@@ -8,6 +8,7 @@ import { getStationCodeController } from "../controller/fetchcontroller/station_
 import { getBlockData1Controller } from "../controller/fetchcontroller/block_data_filter.controller.js";
 import { getBlockDataByDateController } from "../controller/fetchcontroller/blockdata_datewise.controller.js"; 
 import { getFinancialYearDataController } from "../controller/fetchcontroller/blockdata_financial.controller.js";
+import { getMachineTypeController } from "../controller/fetchcontroller/m_block_machine_type.controller.js";
 // import { getStationDataFilteredController } from "../controller/fetchcontroller/station_filtered_data.controller.js";
 
 
@@ -49,6 +50,7 @@ routes.get("/getstationcode",getStationCodeController);
 routes.get("/getblockdata1",getBlockData1Controller);
 routes.get("/getblockdatabydate", getBlockDataByDateController);
 routes.get("/allFyData", getFinancialYearDataController);
+routes.get("/getmachinetype",getMachineTypeController);
 // routes.get("/stationDataFiltered", getStationDataFilteredController);
 
 
