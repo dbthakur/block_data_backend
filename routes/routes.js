@@ -4,7 +4,12 @@ import express from "express";
 
 //get request for fetching data
 import { getStationCodeController } from "../controller/fetchcontroller/station_code.controller.js";
-import { getBlockDataController } from "../controller/fetchcontroller/block_data.controller.js";
+  import { getBlockDataController } from "../controller/fetchcontroller/block_data.controller.js";
+import { getBlockData1Controller } from "../controller/fetchcontroller/block_data_filter.controller.js";
+import { getBlockDataByDateController } from "../controller/fetchcontroller/blockdata_datewise.controller.js"; 
+import { getFinancialYearDataController } from "../controller/fetchcontroller/blockdata_financial.controller.js";
+// import { getStationDataFilteredController } from "../controller/fetchcontroller/station_filtered_data.controller.js";
+
 
 
 //post request for inserting data
@@ -40,7 +45,11 @@ const routes = express.Router();
 
 // for all get request for fetching  master data
 routes.get("/getstationcode",getStationCodeController);
-routes.get("/getblockdata",getBlockDataController);
+ routes.get("/getblockdata",getBlockDataController);
+routes.get("/getblockdata1",getBlockData1Controller);
+routes.get("/getblockdatabydate", getBlockDataByDateController);
+routes.get("/allFyData", getFinancialYearDataController);
+// routes.get("/stationDataFiltered", getStationDataFilteredController);
 
 
 

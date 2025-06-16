@@ -1,10 +1,10 @@
 import { postBlockDataService } from "../../services/insertservice/block_data.service.js";
 
 const REQUIRED_FIELDS = [
-  "Date", "Direction", "Section_name", 
+  "Date", "Direction", "section_name", 
   "From_Station", "To_Station",
     "Department",
-  "Availed_Duration", "Availed",
+  "Availed_Duration", "Availed_Not",
   "Remarks"
 ];
 

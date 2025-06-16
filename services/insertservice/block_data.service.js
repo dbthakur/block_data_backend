@@ -7,7 +7,7 @@ import { db } from "../../db/dbConnect.js";
 export const postBlockDataService = async (blockDataArray) => {
   try {
     const columns = [
-      "Date", "Direction", "Section_name", "From_Station", "To_Station",
+      "Date", "Direction", "section_name", "From_Station", "To_Station",
       "Section_Yard", "Corridore", "Department", "Type", "Block_Type",
       "No_Of_Demand_By_Engg", "No_Of_Demand_Agreed_GIVEN", "Agreed_Demand",
       "Engg_Demand", "GrantedFrom", "GrantedTo", "Availed_Duration",

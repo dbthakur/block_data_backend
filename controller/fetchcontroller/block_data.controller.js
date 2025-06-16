@@ -1,35 +1,30 @@
-
-import { getBlockDataService } from "../../services/fetchservice/block_data.service.js";
-
-
-
+import { getblockdataService } from "../../services/fetchservice/block_data.service.js";
 
 export const getBlockDataController = async (req, res) => {
-  try {
-    const {
-      date,
-     
-    
+  try
 
-    } = req.query;
+{
+        console.log("req.params:", req.params);
+        console.log("req.query:", req.query);
 
-    const page = req.query.page || 1;
-const limit = req.query.limit || 50;
+        // Get the value from query params (dose not redeclare as const)
+        const finYearFromQuery = req.query.fin_yr_array;
+        
+        // Convert to array format needed by service
+        const fin_yr_array = finYearFromQuery ? [finYearFromQuery] : [];
+        
+        console.log("Years being queried:", fin_yr_array);
 
-    if (!date) {
-      return res.status(400).json({ error: "Date parameter is required." });
+        const { status, groupedData, yearsArray } = await getblockdataService(fin_yr_array);
+        
+        if (status === "ok") {
+            return res.status(200).json({ status: "ok", groupedData, yearsArray });
+        } 
+        return res.status(500).json({ status: "error", message: "Failed to fetch data" });
+        
     }
-
-    const data = await getBlockDataService(req.query.date, page, limit);
- 
- 
-    res.status(200).json({
-      status: "ok",
-      data   });
-
-    
-  } catch (error) {
-    console.error("Controller Error:", error);
-    res.status(500).json({ error: "Internal server error" });
-  }
-};
+ catch (error) {
+        console.error("Error fetching community wise data:", error);
+        return res.status(500).json({ status: "error", message: "Internal server error" });
+    }
+}
