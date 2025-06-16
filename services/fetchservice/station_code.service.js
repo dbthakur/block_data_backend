@@ -3,7 +3,6 @@ import { db } from "../../db/dbConnect.js";
 export const getStationCodeServices= async () => {
   try {
     
-
     const query = `SELECT 
     sc.station_id,
     sc.station_name,

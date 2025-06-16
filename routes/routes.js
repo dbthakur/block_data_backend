@@ -1,7 +1,4 @@
 import express from "express";
-
-
-
 //get request for fetching data
 import { getStationCodeController } from "../controller/fetchcontroller/station_code.controller.js";
   import { getBlockDataController } from "../controller/fetchcontroller/block_data.controller.js";
