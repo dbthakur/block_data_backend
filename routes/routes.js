@@ -36,8 +36,8 @@ import { deleteDivisionDataController } from '../controller/deletecontroller/del
 
 
 //authentication
-import { loginUser, registerUser } from "../controller/authcontroller/auth.controller.js";
-import { authenticateToken } from "../middleware/authMiddleware.js";
+// import { loginUser, registerUser } from "../controller/authcontroller/auth.controller.js";
+// import { authenticateToken } from "../middleware/authMiddleware.js";
 
 
 
@@ -78,12 +78,12 @@ routes.delete('/deletedivisiondata/:id',deleteDivisionDataController);
 
 
 //auth routers 
-routes.post('/login',loginUser);
-routes.post('/register',registerUser);
+// routes.post('/login',loginUser);
+// routes.post('/register',registerUser);
 
-routes.get('/protected', authenticateToken, (req, res) => {
-  res.json({ message: `Hello ${req.user.username}`, user: req.user });
-})
+// routes.get('/protected', authenticateToken, (req, res) => {
+//   res.json({ message: `Hello ${req.user.username}`, user: req.user });
+// })
 
 
 export default routes;
