@@ -14,7 +14,6 @@ const app = express();
 
 app.use(cors())
 
-// for updating 
 
 app.use(bodyParser.json());
 
