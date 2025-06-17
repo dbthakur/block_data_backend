@@ -1,12 +1,9 @@
 import { postBlockDataService } from "../../services/insertservice/block_data.service.js";
 
 const REQUIRED_FIELDS = [
-  "Date", "Direction", "section_name", 
+  "reportDate", "Direction", "section", 
   "From_Station", "To_Station",
-    "Department",
-  "Availed_Duration", "Availed_Not",
-  "Remarks"
-];
+    "Department"];
 
 export const postBlockDataController = async (req, res) => {
   try {
