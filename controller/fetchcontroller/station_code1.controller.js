@@ -1,4 +1,4 @@
-import { getStationCodeServices } from "../../services/fetchservice/station_code.service.js";
+import { getStationCodeServices } from "../../services/fetchservice/station_code1.service.js";
 
 export const getStationCodeController = async (req, res) => {
   try {
