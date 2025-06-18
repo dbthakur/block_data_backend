@@ -1,6 +1,5 @@
 
 import { db } from "../../db/dbConnect.js";
-
 export const postBlockDataService = async (blockDataArray) => {
   try {
     const columns = [
@@ -11,18 +10,19 @@ export const postBlockDataService = async (blockDataArray) => {
       "Availed_From", "Availed_To", "Availed", "Rated_Output", "Actual_Output",
       "Granted_Not", "Availed_Not", "Burst", "Burst_Duration", "Remarks",
        "F_Year", "Month", "a_month", "s_month",
-      "Count"
-    ];
-
+      "Count"];
     const values = blockDataArray.map(entry => {
       const row = columns.map(col => entry[col] ?? null); // handle missing fields
       return `(${row.map(val => db.escape(val)).join(", ")})`;
     }).join(", ");
 
+
+    // console.log("Inserting block data with values:", values);
     const query = `INSERT INTO block_data (${columns.join(", ")}) VALUES ${values}`;
     const [result] = await db.execute(query);
     return result;
   } catch (error) {
     throw new Error("Database error: " + error.message);
+
   }
 };

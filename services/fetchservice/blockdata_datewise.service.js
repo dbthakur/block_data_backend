@@ -23,10 +23,10 @@ export const getBlockDataByDateService = async (inputDateStr) => {
 
     // SQL Queries
     const queries = {
-      currentDate: `SELECT * FROM block_data WHERE \`Date\` = ?`,
-      last7Days: `SELECT * FROM block_data WHERE \`Date\` BETWEEN ? AND ?`,
-      monthData: `SELECT * FROM block_data WHERE DATE_FORMAT(\`Date\`, '%Y-%m') = ?`,
-      fyData: `SELECT * FROM block_data WHERE \`Date\` BETWEEN ? AND ?`,
+      currentDate: `SELECT * FROM block_data WHERE \`reportDate\` = ?`,
+      last7Days: `SELECT * FROM block_data WHERE \`reportDate\` BETWEEN ? AND ?`,
+      monthData: `SELECT * FROM block_data WHERE DATE_FORMAT(\`reportDate\`, '%Y-%m') = ?`,
+      fyData: `SELECT * FROM block_data WHERE \`reportDate\` BETWEEN ? AND ?`,
     };
 
     // Execute Queries
