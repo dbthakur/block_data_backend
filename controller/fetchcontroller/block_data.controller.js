@@ -1,4 +1,4 @@
-import { getblockdataService } from "../../services/fetchservice/block_data.service.js";
+import { getblockdataService,getblockdataReportFor30DaysService } from "../../services/fetchservice/block_data.service.js";
 
 export const getBlockDataController = async (req, res) => {
   try
@@ -25,6 +25,26 @@ export const getBlockDataController = async (req, res) => {
     }
  catch (error) {
         console.error("Error fetching community wise data:", error);
+        return res.status(500).json({ status: "error", message: "Internal server error" });
+    }
+}
+
+export const getBlockDataReportFor30DaysController = async (req, res) => {
+    try {
+        const inputDateStr = req.query.date; // Expecting date in 'YYYY-MM-DD' format
+        // if (!inputDateStr) {
+        //     return res.status(400).json({ status: "error", message: "Date parameter is required" });
+        // }
+
+        const { status, ...data } = await getblockdataReportFor30DaysService(inputDateStr);
+        
+        if (status === "ok") {
+            return res.status(200).json({ status: "ok", ...data });
+        }
+        return res.status(500).json({ status: "error", message: "Failed to fetch data" });
+        
+    } catch (error) {
+        console.error("Error fetching block data report for 30 days:", error);
         return res.status(500).json({ status: "error", message: "Internal server error" });
     }
 }
