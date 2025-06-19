@@ -76,11 +76,12 @@ export const getblockdataReportFor30DaysService = async (inputDateStr) => {
         COALESCE(COUNT(b.reportDate), 0) AS no_of_entries,
         COALESCE(SUM(CASE WHEN b.Actual_Output != '' THEN 1 ELSE 0 END),0) AS no_of_updated_entries,
         COALESCE(SUM(CASE WHEN b.Availed_Duration = 0 THEN 1 ELSE 0 END), 0) AS block_not_granted,
-        COALESCE(SUM(CASE WHEN b.Availed_Duration > 0 THEN 1 ELSE 0 END), 0) AS block_granted
+        COALESCE(SUM(CASE WHEN b.Availed_Duration > 0 THEN 1 ELSE 0 END), 0) AS block_granted,
+        SEC_TO_TIME(SUM(TIME_TO_SEC(Availed))) AS total_availed_time
       FROM date_series d
       LEFT JOIN block_data b ON d.reportDate = b.reportDate
       GROUP BY d.reportDate
-      ORDER BY d.reportDate
+      ORDER BY d.reportDate DESC
     `;
 
     const [rows] = await db.query(query, [
