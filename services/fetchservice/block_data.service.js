@@ -72,9 +72,9 @@ export const getblockdataReportFor30DaysService = async (inputDateStr) => {
         WHERE reportDate < ?
       )
       SELECT 
-        d.reportDate,
-        COALESCE(COUNT(b.reportDate), 0) AS total_entries,
-        COALESCE(SUM(CASE WHEN b.Actual_Output = '' THEN 1 ELSE 0 END), 0) AS not_update_count,
+        d.reportDate as date,
+        COALESCE(COUNT(b.reportDate), 0) AS no_of_entries,
+        COALESCE(SUM(CASE WHEN b.Actual_Output != '' THEN 1 ELSE 0 END),0) AS no_of_updated_entries,
         COALESCE(SUM(CASE WHEN b.Availed_Duration = 0 THEN 1 ELSE 0 END), 0) AS block_not_granted,
         COALESCE(SUM(CASE WHEN b.Availed_Duration > 0 THEN 1 ELSE 0 END), 0) AS block_granted
       FROM date_series d
