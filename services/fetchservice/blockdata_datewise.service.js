@@ -1,6 +1,6 @@
 
 import { db } from "../../db/dbConnect.js";
-import { groupByLevels } from "../../utils/groupByLevels.js";
+import { groupByLevelsWithAllData } from "../../utils/groupByLevelWithAllData.js";
 
 export const getBlockDataByDateService = async (inputDateStr) => {
   try {
@@ -36,7 +36,7 @@ export const getBlockDataByDateService = async (inputDateStr) => {
     const [fyRows] = await db.query(queries.fyData, [fyStart, fyEnd]);
 
     const levels = ['section_name', 'Department', 'Direction'];
-    const structureData = (rows, customLevels = levels) => groupByLevels(rows, customLevels);
+    const structureData = (rows, customLevels = levels) => groupByLevelsWithAllData(rows, customLevels);
     // const structureData = (rows) => groupByLevels(rows, levels);
 
     return {
