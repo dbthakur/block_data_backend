@@ -1,27 +1,27 @@
-
 import { updateBlockDataService } from "../../services/updateservice/block_data.service.js";
 
 export const updateBlockDataController = async (req, res) => {
   try {
-    const data = req.body;
-
-    if (!data || typeof data !== "object" || Array.isArray(data)) {
-      return res.status(400).json({ status: "error", message: "Invalid JSON body" });
+    const dataArray = req.body;
+    if (!Array.isArray(dataArray) || dataArray.length === 0) {
+      return res.status(400).json({ status: "error", message: "Request body must be a non-empty array of objects." });
     }
 
-    const result = await updateBlockDataService(data);
+    const results = await updateBlockDataService(dataArray);
 
-    if (result.affectedRows === 0) {
-      return res.status(404).json({
-        status: "error",
-        message: `No record found with Sno=${data.Sno}`
-      });
-    }
+    const successCount = results.filter(r => r.status === "success").length;
+    const notFoundCount = results.filter(r => r.status === "not_found").length;
+    const errorCount = results.filter(r => r.status === "error").length;
 
     res.status(200).json({
       status: "ok",
-      message: `Row with Sno=${data.Sno} updated successfully`,
-      affectedRows: result.affectedRows
+      summary: {
+        total: results.length,
+        successCount,
+        notFoundCount,
+        errorCount
+      },
+      details: results
     });
   } catch (error) {
     console.error("Controller Error:", error);
