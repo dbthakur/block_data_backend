@@ -1,7 +1,7 @@
 import { postBlockDataModifiedService } from "../../services/insertservice/bock_data_modified.service.js";
 
 const REQUIRED_FIELDS = [
-  "Date", "line", "station_name", "Department_ID"
+  "reportDate", "line", "station_name", "Department_ID"
 ];
 
 export const postBlockDataModifiedController = async (req, res) => {
