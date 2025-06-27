@@ -41,11 +41,11 @@ export const getBlockData1Service = async (date, filters = {}) => {
 
     // Define SQL queries with dynamic filters
     const queries = {
-      currentDate: `SELECT * FROM block_data WHERE \`date\` = ?${whereClause}`,
-      currentWeek: `SELECT * FROM block_data WHERE \`date\` >= DATE_SUB(?, INTERVAL 7 DAY) AND \`date\` <= ?${whereClause}`,
-      monthData: `SELECT * FROM block_data WHERE DATE_FORMAT(\`date\`, '%Y-%m') = ?${whereClause}`,
-      yearData: `SELECT * FROM block_data WHERE YEAR(\`date\`) = ?${whereClause}`,
-      fyData: `SELECT * FROM block_data WHERE \`date\` BETWEEN ? AND ?${whereClause}`
+      currentDate: `SELECT * FROM block_data WHERE \`reportdate\` = ?${whereClause}`,
+      currentWeek: `SELECT * FROM block_data WHERE \`reportdate\` >= DATE_SUB(?, INTERVAL 7 DAY) AND \`reportdate\` <= ?${whereClause}`,
+      monthData: `SELECT * FROM block_data WHERE DATE_FORMAT(\`reportdate\`, '%Y-%m') = ?${whereClause}`,
+      yearData: `SELECT * FROM block_data WHERE YEAR(\`reportdate\`) = ?${whereClause}`,
+      fyData: `SELECT * FROM block_data WHERE \`reportdate\` BETWEEN ? AND ?${whereClause}`
     };
 
     // Execute queries with appropriate parameters
@@ -58,29 +58,29 @@ export const getBlockData1Service = async (date, filters = {}) => {
     // Grouping functions
     const groupByDepartment = (data) =>
       [...new Set(data.map((item) => item.Department))]
-        .map((dept) => ({
-          DEPARTMENT_NAME: dept,
-          DATA: data.filter((item) => item.Department === dept)
+        .map((deptt) => ({
+          DEPARTMENT_NAME: deptt,
+          DATA: data.filter((item) => item.Department === deptt)
         }));
 
-    const groupBySection = (data) =>
-      [...new Set(data.map((item) => item.section_name))]
-        .map((section_name) => ({
-          SECTION_NAME: section_name,
-          DATA: data.filter((item) => item.section_name === section_name)
-        }));
+    // const groupBySection = (data) =>
+    //   [...new Set(data.map((item) => item.section_name))]
+    //     .map((section_name) => ({
+    //       SECTION_NAME: section_name,
+    //       DATA: data.filter((item) => item.section_name === section_name)
+    //     }));
 
-    const groupByDirection = (data) =>
-      [...new Set(data.map((item) => item.Direction))]
-        .map((direction) => ({
-          LINE_DIRECTION: direction,
-          DATA: data.filter((item) => item.Direction === direction)
-        }));
+    // const groupByDirection = (data) =>
+    //   [...new Set(data.map((item) => item.Direction))]
+    //     .map((direction) => ({
+    //       LINE_DIRECTION: direction,
+    //       DATA: data.filter((item) => item.Direction === direction)
+    //     }));
 
     // Group data for each time period
     const groupData = (rows) => ({
       departments: groupByDepartment(rows),
-      sections: groupBySection(rows),
+       sections: groupBySection(rows),
       directions: groupByDirection(rows)
     });
 
@@ -90,10 +90,10 @@ export const getBlockData1Service = async (date, filters = {}) => {
       year: year.toString(),
       financialYear: `${fyStart.split("-")[0]}-${fyEnd.split("-")[0]}`,
       currentDate: groupData(currentDateRows),
-      currentWeek: groupData(currentWeekRows),
-      monthData: groupData(monthData),
-      yearData: groupData(yearData),
-      financialYearData: groupData(fyData)
+      // currentWeek: groupData(currentWeekRows),
+      // monthData: groupData(monthData),
+      // yearData: groupData(yearData),
+      // financialYearData: groupData(fyData)
     };
   } catch (error) {
     console.error("Error in block data summary service:", error.message);
