@@ -5,14 +5,15 @@ import { groupByLevelsWithAllData } from "../../utils/groupByLevelWithAllData.js
 export const getBlockDataByDateService = async (query) => {
   try {
     const { start, end } = query;
-    let rows = [];
-    let info = {};
+    let selectedDate;
+    let currentRows = [];
+    let monthRows = [];
 
     const levels = ['section', 'Department', 'Direction'];
     const structureData = (rows) => groupByLevelsWithAllData(rows, levels);
 
     if (start && end) {
-      // Case 1: Date range query
+      // When range is given, take 'end' as current date for currentData
       const startDate = new Date(start);
       const endDate = new Date(end);
       if (isNaN(startDate) || isNaN(endDate)) {
@@ -22,38 +23,46 @@ export const getBlockDataByDateService = async (query) => {
       const startOnly = startDate.toISOString().split('T')[0];
       const endOnly = endDate.toISOString().split('T')[0];
 
-      const [rangeRows] = await db.query(
-        `SELECT * FROM block_data WHERE \`reportDate\` BETWEEN ? AND ?`,
+      selectedDate = endOnly;
+
+      const [rangeData] = await db.query(
+        `SELECT * FROM block_data WHERE reportDate BETWEEN ? AND ?`,
         [startOnly, endOnly]
       );
-
-      rows = rangeRows;
-      info = { start: startOnly, end: endOnly };
-
+      currentRows = rangeData;
     } else {
-      // Case 2: Single date (end or default to today)
-      const selectedDate = end || new Date().toISOString().split('T')[0];
-
+      // No range: use end or today as selectedDate
+      selectedDate = end || new Date().toISOString().split('T')[0];
       const parsedDate = new Date(selectedDate);
-      if (isNaN(parsedDate)) {
-        throw new Error("Invalid date format");
-      }
+      if (isNaN(parsedDate)) throw new Error("Invalid date format");
 
-      const cleanDate = parsedDate.toISOString().split('T')[0];
+      selectedDate = parsedDate.toISOString().split('T')[0];
 
       const [dateRows] = await db.query(
-        `SELECT * FROM block_data WHERE \`reportDate\` = ?`,
-        [cleanDate]
+        `SELECT * FROM block_data WHERE reportDate = ?`,
+        [selectedDate]
       );
-
-      rows = dateRows;
-      info = { date: cleanDate };
+      currentRows = dateRows;
     }
+
+    // Fetch data for the full month of selectedDate
+    const month = selectedDate.slice(0, 7); // "YYYY-MM"
+    const [monthData] = await db.query(
+      `SELECT * FROM block_data WHERE DATE_FORMAT(reportDate, '%Y-%m') = ?`,
+      [month]
+    );
+    monthRows = monthData;
 
     return {
       status: "ok",
-      ...info,
-      data: structureData(rows),
+      currentDate: {
+        date: selectedDate,
+        data: structureData(currentRows),
+      },
+      monthData: {
+        month: month,
+        data: structureData(monthRows),
+      },
     };
 
   } catch (error) {
