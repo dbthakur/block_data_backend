@@ -11,10 +11,8 @@ export const getblockdataService = async (fin_yr_array) => {
       : getCurrentFinancialYearandprevious();
 
     const placeholders = yearsToUse.map(() => '?').join(', '); 
-    //  console.log(yearsToUse)
 
-    const query = `
-      SELECT * FROM block_data
+    const query = `SELECT * FROM block_data
       WHERE F_Year IN (${placeholders})
     `;
 
@@ -101,4 +99,54 @@ export const getblockdataReportFor30DaysService = async (inputDateStr) => {
       message: error.message
     };
   }
+}
+
+export const getblockdataReportForGroupWiseService = async (inputDateStr) => {
+  try {
+
+     const formatDate = (d) => {
+    const yyyy = d.getFullYear();
+    const mm = String(d.getMonth() + 1).padStart(2, '0');
+    const dd = String(d.getDate()).padStart(2, '0');
+    return `${yyyy}-${mm}-${dd}`;
+  };
+
+  const inputDate = new Date(inputDateStr || Date.now());
+
+let financialYearStartYear;
+if (inputDate.getMonth() + 1 >= 4) {
+  financialYearStartYear = inputDate.getFullYear();
+} else {
+  financialYearStartYear = inputDate.getFullYear() - 1;
+}
+
+const prevDate = new Date(financialYearStartYear - 1, 3, 1); 
+
+    const query = `SELECT F_Year,Department,section,Corridore,Month,a_month,s_month,
+    sum(No_Of_Demand_By_Engg) as aggriedBlock,SUM(TIME_TO_SEC(Agreed_Demand)) as agreedHrs,
+     sum(No_Of_Demand_Agreed_GIVEN) as blockGiven,sum(TIME_TO_SEC(Availed)) as givenHour 
+     FROM block_data where reportDate between ? and ? GROUP BY F_Year,Department,section,
+     Corridore,Month,a_month,s_month ORDER BY F_Year DESC,s_month`;
+
+    const [rows] = await db.query(query, [prevDate, inputDate ]);
+
+    const query2 = `SELECT DISTINCT F_Year FROM block_data ORDER BY F_Year DESC`;
+    const [years] = await db.query(query2);
+    const yearsArray = years.map(year => year.F_Year);
+ const groupedData = groupByLevels(
+      rows,
+      ['F_Year', 'section', 'Department','Corridore','a_month']
+    );
+
+    return {
+      status: "ok",
+      data: groupedData,
+      yearsArray: yearsArray    };
+  } catch (error) {
+    console.error("Error in getblockdataReportForGroupWiseService:", error);
+    return {
+      status: "error",
+      message: error.message
+    };
+  } 
 }

@@ -1,7 +1,7 @@
 import express from "express";
 //get request for fetching data
 import { getStationCodeController } from "../controller/fetchcontroller/station_code1.controller.js";
-  import { getBlockDataController,getBlockDataReportFor30DaysController } from "../controller/fetchcontroller/block_data.controller.js";
+  import { getBlockDataController,getBlockDataReportFor30DaysController,getblockdataReportForGroupWiseController } from "../controller/fetchcontroller/block_data.controller.js";
 import { getBlockData1Controller } from "../controller/fetchcontroller/block_data_filter.controller.js";
 import { getBlockDataByDateController } from "../controller/fetchcontroller/blockdata_datewise.controller.js"; 
 import { getFinancialYearDataController } from "../controller/fetchcontroller/blockdata_financial.controller.js";
@@ -49,6 +49,8 @@ routes.get("/getblockdatabydate", getBlockDataByDateController);
 routes.get("/allFyData", getFinancialYearDataController);
 routes.get("/getmachinetype",getMachineTypeController);
 routes.get("/getblockdataReportFor30Days", getBlockDataReportFor30DaysController);
+routes.get("/getblockdataReportForGroupData", getblockdataReportForGroupWiseController);
+
 // routes.get("/stationDataFiltered", getStationDataFilteredController);
 
 
@@ -73,15 +75,6 @@ routes.put("/updateblockdata", updateBlockDataController);
 routes.delete('/deletestation/:id',deleteStationDataController);
 routes.delete('/deleteblockdata/:id',deleteBlockDataController);
 routes.delete('/deletedivisiondata/:id',deleteDivisionDataController);
-
-
-//auth routers 
-// routes.post('/login',loginUser);
-// routes.post('/register',registerUser);
-
-// routes.get('/protected', authenticateToken, (req, res) => {
-//   res.json({ message: `Hello ${req.user.username}`, user: req.user });
-// })
 
 
 export default routes;
