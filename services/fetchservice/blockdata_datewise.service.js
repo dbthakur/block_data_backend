@@ -2,65 +2,58 @@
 import { db } from "../../db/dbConnect.js";
 import { groupByLevelsWithAllData } from "../../utils/groupByLevelWithAllData.js";
 
-export const getBlockDataByDateService = async (inputDateStr) => {
+export const getBlockDataByDateService = async (query) => {
   try {
-    const inputDate = new Date(inputDateStr);
-    if (isNaN(inputDate)) throw new Error("Invalid date format");
+    const { start, end } = query;
+    let rows = [];
+    let info = {};
 
-    const dateOnly = inputDate.toISOString().split('T')[0];
-    const year = inputDate.getFullYear();
-    const month = String(inputDate.getMonth() + 1).padStart(2, '0');
-    const yyyyMM = `${year}-${month}`;
+    const levels = ['section', 'Department', 'Direction'];
+    const structureData = (rows) => groupByLevelsWithAllData(rows, levels);
 
-    // Financial Year Range
-    const fyStart = inputDate.getMonth() + 1 >= 4 ? `${year}-04-01` : `${year - 1}-04-01`;
-    const fyEnd = inputDate.getMonth() + 1 >= 4 ? `${year + 1}-03-31` : `${year}-03-31`;
+    if (start && end) {
+      // Case 1: Date range query
+      const startDate = new Date(start);
+      const endDate = new Date(end);
+      if (isNaN(startDate) || isNaN(endDate)) {
+        throw new Error("Invalid start or end date format");
+      }
 
-    // Last 7 Days Range
-    const last7StartDateObj = new Date(inputDate);
-    last7StartDateObj.setDate(last7StartDateObj.getDate() - 6); // 6 days before current
-    const last7StartDate = last7StartDateObj.toISOString().split('T')[0];
+      const startOnly = startDate.toISOString().split('T')[0];
+      const endOnly = endDate.toISOString().split('T')[0];
 
-    // SQL Queries
-    const queries = {
-      currentDate: `SELECT * FROM block_data WHERE \`reportDate\` = ?`,
-      last7Days: `SELECT * FROM block_data WHERE \`reportDate\` BETWEEN ? AND ?`,
-      monthData: `SELECT * FROM block_data WHERE DATE_FORMAT(\`reportDate\`, '%Y-%m') = ?`,
-      fyData: `SELECT * FROM block_data WHERE \`reportDate\` BETWEEN ? AND ?`,
-    };
+      const [rangeRows] = await db.query(
+        `SELECT * FROM block_data WHERE \`reportDate\` BETWEEN ? AND ?`,
+        [startOnly, endOnly]
+      );
 
-    // Execute Queries
-    const [currentDateRows] = await db.query(queries.currentDate, [dateOnly]);
-    const [last7DaysRows] = await db.query(queries.last7Days, [last7StartDate, dateOnly]);
-    const [monthRows] = await db.query(queries.monthData, [yyyyMM]);
-    const [fyRows] = await db.query(queries.fyData, [fyStart, fyEnd]);
+      rows = rangeRows;
+      info = { start: startOnly, end: endOnly };
 
-    const levels = ['section_name', 'Department', 'Direction'];
-    const structureData = (rows, customLevels = levels) => groupByLevelsWithAllData(rows, customLevels);
-    // const structureData = (rows) => groupByLevels(rows, levels);
+    } else {
+      // Case 2: Single date (end or default to today)
+      const selectedDate = end || new Date().toISOString().split('T')[0];
+
+      const parsedDate = new Date(selectedDate);
+      if (isNaN(parsedDate)) {
+        throw new Error("Invalid date format");
+      }
+
+      const cleanDate = parsedDate.toISOString().split('T')[0];
+
+      const [dateRows] = await db.query(
+        `SELECT * FROM block_data WHERE \`reportDate\` = ?`,
+        [cleanDate]
+      );
+
+      rows = dateRows;
+      info = { date: cleanDate };
+    }
 
     return {
       status: "ok",
-
-      currentDate: {
-        date: dateOnly,
-        data: structureData(currentDateRows)
-      },
-
-      last7Days: {
-        Range :{ start: last7StartDate,end:dateOnly } ,
-        data: structureData(last7DaysRows)
-      },
-
-      monthData: {
-        month: yyyyMM,
-        data: structureData(monthRows)
-      },
-
-      financialYearData: { financialYear: `${fyStart.slice(0, 4)}-${fyEnd.slice(2, 4)}`,
-        // range: { start: fyStart, end: fyEnd },
-        data: structureData(fyRows,['section_name', 'Department', 'a_month']) //filtering by section_name, Department, a_month
-      }
+      ...info,
+      data: structureData(rows),
     };
 
   } catch (error) {

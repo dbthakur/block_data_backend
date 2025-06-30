@@ -50,6 +50,7 @@ routes.get("/allFyData", getFinancialYearDataController);
 routes.get("/getmachinetype",getMachineTypeController);
 routes.get("/getblockdataReportFor30Days", getBlockDataReportFor30DaysController);
 routes.get("/getblockdataReportForGroupData", getblockdataReportForGroupWiseController);
+routes.get("/getblockdataReportForGroupData", getblockdataReportForGroupWiseController);
 
 // routes.get("/stationDataFiltered", getStationDataFilteredController);
 
